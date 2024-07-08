@@ -14,14 +14,14 @@ public class UpdateHandler : IUpdateHandler
         CancellationToken cancellationToken)
     {
         Console.WriteLine(update.Type);
-
-        if (update.Type == UpdateType.Message && update.Message?.Text != null)
+        switch (update.Type)
         {
-            await HandleMessage(botClient, update.Message, cancellationToken);
-        }
-        else if (update.Type == UpdateType.ChatMember)
-        {
-            await HandleNewMember(botClient, update.ChatMember, cancellationToken);
+            case UpdateType.Message when update.Message?.Text != null:
+                await HandleMessage(botClient, update.Message, cancellationToken);
+                break;
+            case UpdateType.ChatMember:
+                await HandleNewMember(botClient, update.ChatMember, cancellationToken);
+                break;
         }
     }
 
